@@ -21,7 +21,7 @@
 server {
 	server_name _;
 	index index.html index.htm;
-	root /home/sescvpn/frontend/
+	root /home/sescvpn/frontend/;
 	set $root /home/sescvpn/frontend/;
 	location /_next/static {
 		alias $root/.next/static;

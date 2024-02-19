@@ -1,5 +1,6 @@
-{  "log": {
-    "loglevel": "info"
+{
+  "log": {
+    "loglevel": "warning"
   },
   "routing": {
     "rules": [],
@@ -12,27 +13,28 @@
       "tag": "vless_tls",
       "settings": {
         "clients": [
+          "Append users here"
         ],
         "decryption": "none"
       },
       "streamSettings": {
         "network": "tcp",
         "security": "reality",
-		"realitySettings": {
-			"show": false,
-			"dest": "www.example.com:443",
-			"xver": 0,
-			"serverNames": [
-				"www.example.com"
-			],
-			"privateKey": " Leave your private key here",
-			"minClientVer": "",
-			"maxClientVer": "",
-			"maxTimeDiff": 0,
-			"shortIds": [
-				"8-16 char Id"
-			]
-		}
+        "realitySettings": {
+          "show": false,
+          "dest": "www.microsoft.com:443",
+          "xver": 0,
+          "serverNames": [
+            "www.microsoft.com"
+          ],
+          "privateKey": "",
+          "minClientVer": "",
+          "maxClientVer": "",
+          "maxTimeDiff": 0,
+          "shortIds": [
+            "Generate random 8 characters utf-8"
+          ]
+        }
       },
       "sniffing": {
         "enabled": true,
