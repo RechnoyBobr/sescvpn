@@ -18,24 +18,37 @@
 
 # Default server configuration
 #
+upstream nextjs_upstream {
+    server nextjs:3000
+  }
 server {
 	server_name _;
-	index index.html index.htm;
-	root /home/sescvpn/frontend/;
-	set $root /home/sescvpn/frontend/;
+  server_tokens off;
+
+	gzip on;
+  gzip_proxied any;
+  gzip_comp_level 4;
+  gzip_types text/css application/javascript image/svg+xml;
+
+	proxy_http_version 1.1;
+	proxy_set_header Uprade $http_upgrade;
+	proxy_set_header Connection 'upgrade';
+	proxy_set_header Host $host;
+  proxy_cache_bypass $http_upgrade;
 	location /_next/static {
-		alias $root/.next/static;
-		add_header Cache-Control "public, max-age=3600, immutable";
+    proxy_cache STATIC;
+    proxy_pass http://nextjs_upstream;
+	}
+  location /static {
+      proxy_cache STATIC;
+      proxy_ignore_headers Cache-Control;
+      proxy_cache_valid 60m;
+      proxy_pass http://nextjs_upstream;
+    }
+	location / {
+		proxy_pass http://nextjs_upstream;
 	}
 
-	location / {
-		proxy_pass http://localhost:3000;
-		proxy_http_version 1.1;
-		proxy_set_header Uprade $http_upgrade;
-		proxy_set_header Connection 'upgrade';
-		proxy_set_header Host $host;
-		proxy_cache_bypass $http_upgrade;
-	}
 	listen 80 default_server;
 	listen [::]:80;
 }
