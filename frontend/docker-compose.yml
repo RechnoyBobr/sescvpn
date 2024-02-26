@@ -2,7 +2,10 @@ version: '1.0'
 services:
   nextjs:
     build: ./
+    container_name: nextjs
   nginx:
     build: ./nginx/
     ports:
-      [80]
+      - 80:80
+    depends_on: 
+      - nextjs 

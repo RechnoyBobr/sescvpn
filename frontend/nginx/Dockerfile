@@ -1,9 +1,5 @@
 FROM nginx:alpine
-
-RUN rm -rf /etc/nginx/
-COPY ./ /etc/nginx/
-RUN ls /usr/local/ -a
-RUN ls /etc/nginx/ -a
+COPY ./sites-available/default /etc/nginx/conf.d/default.conf
 EXPOSE 80
 
 CMD [ "nginx", "-g", "daemon off;" ]
