@@ -13,6 +13,7 @@
       "tag": "vless_tls",
       "settings": {
         "clients": [
+{"id": "d2d5bae2-5d65-46bf-9308-87f2b693d669"}, 
 
         ],
         "decryption": "none"
