@@ -1,9 +1,9 @@
 FROM teddysun/xray
 
 COPY ./build.sh /build.sh
+COPY ./addUser.sh /addUser.sh
 ARG mode
-RUN apk update && apk add bash
+RUN apk update && apk add bash py3-flask perl-json
 RUN apk add --no-cache bash
-RUN apk add perl-json
 RUN cd /
-RUN  if [[ -z "$mode" ]]; then echo $(eval /build.sh -n > /etc/xray/config.json); else echo $(eval /build.sh -r > /etc/xray/config.json); fi
+RUN  if [[ -z "$mode" ]]; then eval /build.sh -n > /etc/xray/config.json; else eval /build.sh -r > /etc/xray/config.json; fi

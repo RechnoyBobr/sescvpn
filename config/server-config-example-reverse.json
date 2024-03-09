@@ -16,7 +16,9 @@
       "protocol": "vless",
       "tag": "vless_tls",
       "settings": {
-        "clients": [],
+        "clients": [
+
+        ],
         "descryption": "none"
       },
       "streamSettings": {

@@ -1,10 +1,14 @@
 {
   "log": {
-    "loglevel": "info"
+    "loglevel": "warn"
   },
-  "routing": {
-    "rules": [],
-    "domainStrategy": "AsIs"
+  "reverse": {
+    "portals": [
+      {
+        "tag": "portal",
+        "domain": "reverse.sescvpn.com"
+      }
+    ]
   },
   "inbounds": [
     {
@@ -13,28 +17,27 @@
       "tag": "vless_tls",
       "settings": {
         "clients": [
-{"id": "d2d5bae2-5d65-46bf-9308-87f2b693d669"}, 
+ {"id": "d68795e6-6414-4fd5-9c97-bbf0452094e4"},
 
         ],
-        "decryption": "none"
+        "descryption": "none"
       },
       "streamSettings": {
         "network": "tcp",
         "security": "reality",
         "realitySettings": {
           "show": false,
-          "dest": "www.example.com:443",
+          "dest": "www.microsoft.com:443",
           "xver": 0,
           "serverNames": [
-            "www.example.com"
+            "www.microsoft.com",
+            "www.github.com"
           ],
-          "privateKey": " Leave your private key here",
+          "privateKey": "",
           "minClientVer": "",
           "maxClientVer": "",
           "maxTimeDiff": 0,
-          "shortIds": [
-            "8-16 char Id"
-          ]
+          "shortIds": []
         }
       },
       "sniffing": {
@@ -50,6 +53,21 @@
     {
       "protocol": "freedom",
       "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "block"
     }
-  ]
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "incoming"
+        ],
+        "outboundTag": "portal"
+      }
+    ]
+  }
 }

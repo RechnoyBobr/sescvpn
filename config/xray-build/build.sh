@@ -12,7 +12,7 @@ pbk=${X25519[5]}
 uuid=$(eval "xray uuid")
 echo $pbk >to.txt
 echo $sId >>to.txt
-echo $uuid >uuid.txt
+echo $uuid >>to.txt
 while getopts ":rn" opt; do
 	case $opt in
 	r)
@@ -37,7 +37,7 @@ while getopts ":rn" opt; do
           "tag": "vless_tls",
           "settings": {
             "clients": [
-              
+            {"id": $uuid}
             ],
             "decryption": "none"
           },
@@ -50,7 +50,6 @@ while getopts ":rn" opt; do
               "xver": 0,
               "serverNames": [
                 "www.microsoft.com",
-                "www.github.com"
               ],
               "privateKey": "$pvk",
               "minClientVer": "",
@@ -112,6 +111,7 @@ EndOfScript
           "tag": "vless_tls",
           "settings": {
             "clients": [
+
             ],
             "decryption": "none"
           },
