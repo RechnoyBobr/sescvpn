@@ -1,13 +1,13 @@
 from flask import Flask, request
+import requests
 import psycopg2
 
 app = Flask(__name__)
 
-
 conn = psycopg2.connect(
     host="postgres_container",
     database="db",
-    user="user1",
+    user="postgres",
     password="password1"
 )
 
@@ -19,9 +19,9 @@ def hello_world():
 
 @app.route('/create', methods=['POST'])
 def create():
-    username = request.form.get('username')
+    login = request.form.get('login')
     email = request.form.get('email')
-
+    # is_reverse = request.form.getlist('is_reverse')
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE email = %s;", (email,))
     count = 0
@@ -30,7 +30,7 @@ def create():
     if count == 0:
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO users (username, email, sid) VALUES (%s, %s, %s)", (username, email, '1'))
+            "INSERT INTO users (login, email, is_reverse) VALUES (%s, %s, %s)", (login, email, False))
         conn.commit()
     else:
         return 'User already exists!'
@@ -40,6 +40,15 @@ def create():
               'sid': '1', 'sni': 'www.microsoft.com', 'type': 'tcp#Deutschland'}
 
     server = 'vless://cb47b11c-220f-4be6-bad3-2613957829dc@94.131.120.53:443?'
+    sql = 'SELECT count(*) FROM users;'
+    data = []
+    cur.execute(sql, data)
+    results = cur.fetchone()
+    number = 0
+    for r in results:
+        number = r
+    json_data = {'users_total': number}
+    res = requests.post('https://x-ray:6000', json=json_data)
     return server + '&'.join([key + '=' + config[key] for key in config])
 
 
