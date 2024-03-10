@@ -36,8 +36,8 @@ while getopts ":rn" opt; do
           "protocol": "vless",
           "tag": "vless_tls",
           "settings": {
-            "clients": [
-            {"id": $uuid}
+            "clients" : [
+
             ],
             "decryption": "none"
           },
@@ -110,7 +110,7 @@ EndOfScript
           "protocol": "vless",
           "tag": "vless_tls",
           "settings": {
-            "clients": [
+            "clients" : [
 
             ],
             "decryption": "none"
