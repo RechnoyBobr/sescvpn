@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
 "use client"
+import { useState, useEffect } from 'react'
 export default function Form() {
   const [data, setData] = useState('');
   async function handler(e) {

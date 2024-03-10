@@ -5,9 +5,9 @@ app = Flask(__name__)
 
 
 conn = psycopg2.connect(
-    host="postgres_container",
+    host="postgres",
     database="db",
-    user="user1",
+    user="postgres",
     password="password1"
 )
 
