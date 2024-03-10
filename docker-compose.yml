@@ -1,14 +1,26 @@
-version: '1.0'
+version: '0.1'
 services:
+  xray:
+    build: ./config/xray-build/
+    container_name: xray
+    depends_on:
+      - backend
+    ports: 
+      - 6000:6000
+    networks:
+      - backend
+
   nextjs:
     build: ./frontend/
     container_name: nextjs
+
   nginx:
     build: ./frontend/nginx/
     ports:
       - 80:80
     depends_on:
       - nextjs
+      
   postgres:
     container_name: postgres
     image: postgres:14.8-alpine3.18
@@ -35,13 +47,12 @@ services:
           memory: 4G
     networks:
       - postgres
-      - backend
 
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4:7.2
     environment:
-      PGADMIN_DEFAULT_EMAIL: "habrpguser@habr.com"
+      PGADMIN_DEFAULT_EMAIL: "egorrussian56@gmail.com"
       PGADMIN_DEFAULT_PASSWORD: "password1"
       PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
@@ -66,7 +77,9 @@ services:
       - postgres
       - nextjs
     networks:
+      - postgres
       - backend
+
 volumes:
   habrdb-data:
   pgadmin-data:
