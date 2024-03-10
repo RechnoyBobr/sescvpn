@@ -10,9 +10,9 @@ for item in $(eval "xray x25519"); do X25519+=($item); done
 pvk=${X25519[2]}
 pbk=${X25519[5]}
 uuid=$(eval "xray uuid")
-echo $pbk >to.txt
-echo $sId >>to.txt
-echo $uuid >>to.txt
+echo $pbk >/to.txt
+echo $sId >>/to.txt
+echo $uuid >>/to.txt
 while getopts ":rn" opt; do
 	case $opt in
 	r)
