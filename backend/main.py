@@ -1,8 +1,12 @@
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 import requests
+import sys
 import psycopg2
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS']='Content-type'
 
 conn = psycopg2.connect(
     host="postgres",
@@ -18,10 +22,11 @@ def hello_world():
 
 
 @app.route('/create', methods=['POST'])
+@cross_origin()
 def create():
     login = request.get_json(force=True).get('login')
     email = request.get_json(force=True).get('email')
-    print(login, email)
+    app.logger.info(login)
     # is_reverse = request.form.getlist('is_reverse')
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE email = %s;", (email,))
@@ -45,15 +50,25 @@ def create():
     data = []
     cur.execute(sql, data)
     results = cur.fetchone()
+
     number = 0
+    app.logger.info(results)
     for r in results:
         number = r
     if number < 1:
         number = 1
     json_data = {'users_total': number}
-    res = requests.post('https://x-ray:7070', json=json_data)
-    return res.text
+    cur.close()
+    app.logger.info(json_data)
+    res = requests.post('http://xray:7070', json=json_data)
+    result = app.response_class(
+        response = res,
+        status=200,
+        mimetype='application/json'
+    )
+    app.logger.info(res)
+    return result
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)

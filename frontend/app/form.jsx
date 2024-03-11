@@ -7,10 +7,11 @@ export default function Form() {
     const form = e.target;
     console.log(form.login.value)
     const Data = { "login": form.login.value, "email": form.email.value }
-    console.log(JSON.stringify(Data));
-    const res = await fetch('http://localhost:5000/create', { method: "POST", mode: "no-cors", body: JSON.stringify(Data) });
-    const product = res.json(); // Json with field config containing finished unique config for user 
-    setData(product)
+    const res = await fetch('http://localhost:5000/create', { method: "POST", body: JSON.stringify(Data) })
+      .then(response => response.text())
+      .then(response => setData(response))
+
+    //const product = res.json(); // Json with field config containing finished unique config for user 
   }
   return (
     <div>

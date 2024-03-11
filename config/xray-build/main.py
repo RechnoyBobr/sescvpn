@@ -1,3 +1,4 @@
+import sys
 from flask import Flask, request
 import os
 
@@ -20,7 +21,8 @@ app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
 def config():
-    users= request.form.get('userCount')
+    users= request.get_json(force=True).get('users_total')
+    app.logger.info(users)
     if users is None:
         users = 1
     if users == 1:
@@ -28,7 +30,8 @@ def config():
     else:
         os.system("/bin/bash -c \"/kill.sh; /addUser.sh;\"")
     os.system(" /bin/bash -c \"xray run -c /etc/xray/config.json & disown\"")
-    return {"config": gen_string(users)}
-
+    r = gen_string(users)
+    app.logger.info(r)
+    return r
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=7070) 
+    app.run(host="0.0.0.0", port=7070, debug=True) 
