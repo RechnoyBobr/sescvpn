@@ -7,12 +7,17 @@ services:
       - backend
     ports: 
       - 6000:6000
+      - 443:443
     networks:
       - backend
+    expose:
+      - 443:443
 
   nextjs:
     build: ./frontend/
     container_name: nextjs
+    networks:
+      - backend
 
   nginx:
     build: ./frontend/nginx/
@@ -20,6 +25,8 @@ services:
       - 80:80
     depends_on:
       - nextjs
+    networks:
+      - backend
       
   postgres:
     container_name: postgres

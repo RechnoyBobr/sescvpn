@@ -5,15 +5,14 @@ export default function Form() {
   async function handler(e) {
     e.preventDefault();
     const form = e.target;
-    const Data = new FormData(form);
-    console.log(Data);
-    const res = await fetch('http://backend:5000', { method: "POST", body: JSON.stringify(Data) });
+    console.log(form.login.value)
+    const Data = { "login": form.login.value, "email": form.email.value }
+    console.log(JSON.stringify(Data));
+    const res = await fetch('http://localhost:5000/create', { method: "POST", mode: "no-cors", body: JSON.stringify(Data) });
     const product = res.json(); // Json with field config containing finished unique config for user 
     setData(product)
-    // TODO: output config
   }
   return (
-    // TODO: Add checkbox for reverse proxy
     <div>
       <form className="flex gap-5 flex-col align-center" method="POST" onSubmit={handler}>
         <input className="text-black w-1/4 justify-self-center" type="text" placeholder="Input e-mail" name="email" />

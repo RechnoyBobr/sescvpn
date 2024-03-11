@@ -19,8 +19,9 @@ def hello_world():
 
 @app.route('/create', methods=['POST'])
 def create():
-    login = request.form.get('login')
-    email = request.form.get('email')
+    login = request.get_json(force=True).get('login')
+    email = request.get_json(force=True).get('email')
+    print(login, email)
     # is_reverse = request.form.getlist('is_reverse')
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE email = %s;", (email,))
@@ -30,7 +31,7 @@ def create():
     if count == 0:
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO users (login, email, is_reverse) VALUES (%s, %s, %s)", (login, email, False))
+            "INSERT INTO users (login, email) VALUES (%s, %s)", (login, email,))
         conn.commit()
     else:
         return 'User already exists!'
@@ -47,9 +48,11 @@ def create():
     number = 0
     for r in results:
         number = r
+    if number < 1:
+        number = 1
     json_data = {'users_total': number}
-    res = requests.post('https://x-ray:6000', json=json_data)
-    return server + '&'.join([key + '=' + config[key] for key in config])
+    res = requests.post('http://xray:7070', json=json_data)
+    return res.json()
 
 
 if __name__ == '__main__':
