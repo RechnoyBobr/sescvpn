@@ -14,7 +14,7 @@ conn = psycopg2.connect(
 
 @app.route('/', methods=['GET'])
 def hello_world():
-    return 'Hello, World!'
+    return 'Good VPN service'
 
 
 @app.route('/create', methods=['POST'])
@@ -31,7 +31,7 @@ def create():
     if count == 0:
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO users (login, email) VALUES (%s, %s)", (login, email,))
+            "INSERT INTO users (login, email) VALUES (%s, %s)", (login, email))
         conn.commit()
     else:
         return 'User already exists!'
@@ -51,8 +51,8 @@ def create():
     if number < 1:
         number = 1
     json_data = {'users_total': number}
-    res = requests.post('http://xray:7070', json=json_data)
-    return res.json()
+    res = requests.post('https://x-ray:7070', json=json_data)
+    return res.text
 
 
 if __name__ == '__main__':
