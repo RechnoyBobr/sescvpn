@@ -10,7 +10,7 @@ def gen_string(users):
     global templ
     with open('/uuid') as f , open('/to.txt') as f1:
         arr =[i for i in f1]
-        return templ.format(uuid=f.readline()[:-1], pbk=arr[0][:-1], sid=arr[1][:-1])
+        return templ.format(uuid=f.readline()[:-1], pbk=arr[0][:-1], sid=arr[1][:-1], ip=ip[:-1])
 
 
 app = Flask(__name__)

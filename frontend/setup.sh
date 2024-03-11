@@ -1,3 +1,12 @@
 IP=$(cat ./ip.txt)
-RES="BACKEND_HOST=${IP}"
-echo $RES >.env.local
+
+cat <<EOF >./next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  env: {
+    BACKEND_HOST: "$IP",
+  },
+};
+
+export default nextConfig;
+EOF
