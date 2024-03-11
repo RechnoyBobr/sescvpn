@@ -19,8 +19,9 @@ def hello_world():
 
 @app.route('/create', methods=['POST'])
 def create():
-    login = request.form.get('login')
-    email = request.form.get('email')
+    login = request.get_json(force=True).get('login')
+    email = request.get_json(force=True).get('email')
+    print(login, email)
     # is_reverse = request.form.getlist('is_reverse')
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE email = %s;", (email,))
@@ -47,6 +48,8 @@ def create():
     number = 0
     for r in results:
         number = r
+    if number < 1:
+        number = 1
     json_data = {'users_total': number}
     res = requests.post('https://x-ray:7070', json=json_data)
     return res.text
