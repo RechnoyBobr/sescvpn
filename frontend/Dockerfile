@@ -8,6 +8,9 @@ RUN npm install --global pm2
 COPY ./package*.json ./
 RUN npm i 
 COPY ./ ./
+COPY ../ip.txt ./ip.txt
+COPY ./setup.sh ./setup.sh
+RUN ./setup.sh
 RUN npm run build
 EXPOSE 3000
 

@@ -4,6 +4,7 @@ COPY ./build.sh /build.sh
 COPY ./addUser.sh /addUser.sh
 COPY ./main.py /main.py
 COPY ./kill.sh /kill.sh
+COPY ../../ip.txt /ip.txt
 RUN apk update && apk add bash py3-flask perl-json
 RUN apk add --no-cache bash
 RUN chmod +x /kill.sh

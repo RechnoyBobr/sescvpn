@@ -2,8 +2,10 @@ import sys
 from flask import Flask, request
 import os
 
-templ = "vless://{uuid}@127.0.0.1?security=reality&sni=www.microsoft.com&allowInsecure=1&fp=chrome&pbk={pbk}&sid={sid}&type=tcp&flow=xtls-rprx-vision&encryption=none#SESCVPN"
-
+templ = "vless://{uuid}@{ip}?security=reality&sni=www.microsoft.com&allowInsecure=1&fp=chrome&pbk={pbk}&sid={sid}&type=tcp&flow=xtls-rprx-vision&encryption=none#SESCVPN"
+f = open("/ip.txt")
+ip = f.readline()
+f.close()
 def gen_string(users):
     global templ
     with open('/uuid') as f , open('/to.txt') as f1:
@@ -28,4 +30,4 @@ def config():
     app.logger.info(r)
     return r
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=7070, debug=True) 
+    app.run(host="0.0.0.0", port=7070, debug=True)
