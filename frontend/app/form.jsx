@@ -7,7 +7,7 @@ export default function Form() {
     const form = e.target;
     console.log(form.login.value)
     const Data = { "login": form.login.value, "email": form.email.value }
-    const res = await fetch('http://localhost:5000/create', { method: "POST", body: JSON.stringify(Data) })
+    const res = await fetch('http://host.docker.internal:5000/create', { method: "POST", body: JSON.stringify(Data) })
       .then(response => response.text())
       .then(response => setData(response))
 
