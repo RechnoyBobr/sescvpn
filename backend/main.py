@@ -14,7 +14,7 @@ conn = psycopg2.connect(
 
 @app.route('/', methods=['GET'])
 def hello_world():
-    return 'Hello, World!'
+    return 'Good VPN service'
 
 
 @app.route('/create', methods=['POST'])
@@ -30,7 +30,7 @@ def create():
     if count == 0:
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO users (login, email, is_reverse) VALUES (%s, %s, %s)", (login, email, False))
+            "INSERT INTO users (login, email) VALUES (%s, %s)", (login, email))
         conn.commit()
     else:
         return 'User already exists!'
