@@ -48,8 +48,8 @@ def create():
     for r in results:
         number = r
     json_data = {'users_total': number}
-    res = requests.post('https://x-ray:6000', json=json_data)
-    return server + '&'.join([key + '=' + config[key] for key in config])
+    res = requests.post('https://x-ray:7070', json=json_data)
+    return res.text
 
 
 if __name__ == '__main__':
