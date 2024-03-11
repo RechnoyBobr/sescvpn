@@ -6,15 +6,9 @@ templ = "vless://{uuid}@127.0.0.1?security=reality&sni=www.microsoft.com&allowIn
 
 def gen_string(users):
     global templ
-    if users <= 1:
-        with open('/to.txt') as f:
-            arr = [i for i in f]
-            a =templ.format(pbk=arr[0][:-1],sid=arr[1][:-1], uuid=arr[2][:-1])
-            return a
-    else: 
-        with open('/uuid') as f , open('/to.txt') as f1:
-            arr =[i for i in f1]
-            return templ.format(uuid=f.readline()[:-1], pbk=arr[0][:-1], sid=arr[1][:-1])
+    with open('/uuid') as f , open('/to.txt') as f1:
+        arr =[i for i in f1]
+        return templ.format(uuid=f.readline()[:-1], pbk=arr[0][:-1], sid=arr[1][:-1])
 
 
 app = Flask(__name__)
