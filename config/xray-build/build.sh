@@ -1,6 +1,6 @@
 #!/bin/bash
 array=()
-for i in {a..z} {A..Z} {0..9}; do
+for i in {a..f} {0..9}; do
 	array[$RANDOM]=$i
 done
 

@@ -1,44 +1,34 @@
 from flask import Flask, request
 import os
-users = 0
-
-def loadCount():
-    with open('/users') as f:
-        return int(f.readline())
-
-def updateCount():
-    global users
-    with open('/users', 'w') as f:
-        if users != 0:
-            f.write(str(users))
 
 templ = "vless://{uuid}@127.0.0.1?security=reality&sni=www.microsoft.com&allowInsecure=1&fp=chrome&pbk={pbk}&sid={sid}&type=tcp&flow=xtls-rprx-vision&encryption=none#SESCVPN"
 
-def gen_string():
+def gen_string(users):
     global templ
-    if users == 1:
+    if users <= 1:
         with open('/to.txt') as f:
             arr = [i for i in f]
-            a =templ.format(pbk=arr[0],sid=arr[1], uuid=arr[2])
-            templ = templ.format(pbk=arr[0], sid=arr[1])
+            a =templ.format(pbk=arr[0][:-1],sid=arr[1][:-1], uuid=arr[2][:-1])
             return a
     else: 
-        with open('/uuid') as f:
-            return templ.format(uuid=f.readline())
+        with open('/uuid') as f , open('/to.txt') as f1:
+            arr =[i for i in f1]
+            return templ.format(uuid=f.readline()[:-1], pbk=arr[0][:-1], sid=arr[1][:-1])
 
 
 app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
-def  Config():
-    global users
+def config():
     users= request.form.get('userCount')
+    if users is None:
+        users = 1
     if users == 1:
-        os.system("/build.sh -n > /etc/xray/config.json && /addUser.sh  && xray run")
+        os.system("/bin/bash -c \"/build.sh -n > /etc/xray/config.json; /addUser.sh;\"") 
     else:
-        os.system("/kill.sh && /addUser.sh  && xray run")
-    return gen_string()
+        os.system("/bin/bash -c \"/kill.sh; /addUser.sh;\"")
+    os.system(" /bin/bash -c \"xray run -c /etc/xray/config.json & disown\"")
+    return {"config": gen_string(users)}
 
 if __name__ == "__main__":
-    app.run(port=6000)
-        
+    app.run(host="0.0.0.0", port=7070) 
