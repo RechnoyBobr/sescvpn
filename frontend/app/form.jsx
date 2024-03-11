@@ -5,11 +5,11 @@ export default function Form() {
   async function handler(e) {
     e.preventDefault();
     const form = e.target;
-    const Data = new FormData(form);
+    const Data = { "email": e.target.email.value, "login": e.target.login.value };
     console.log(Data);
-    const res = await fetch(`http://{process.env.BACKEND_HOST}:5000`, { method: "POST", body: JSON.stringify(Data) });
-    const product = res.json(); // Json with field config containing finished unique config for user 
-    setData(product)
+    const res = await fetch(`http://${process.env.BACKEND_HOST}:5000`, { method: "POST", body: JSON.stringify(Data) })
+      .then(res => res.text())
+      .then(res => setData(res));
     // TODO: output config
   }
   return (
